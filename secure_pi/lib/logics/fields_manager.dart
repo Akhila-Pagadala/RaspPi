@@ -8,7 +8,7 @@ class FieldsManager {
   FieldsBloc bloc;
 
   List<Field> allFields = List<Field>();
-  HashMap<DateTime, List<Field>> fieldsWithDates;
+  List<DatedFields> fieldsWithDates;
 
   FieldsManager({@required this.bloc}) {
 
@@ -40,7 +40,7 @@ class FieldsManager {
 
   }
 
-  HashMap<DateTime, List<Field>> binIntoSortedDates(List<Field> fields) {
+  List<DatedFields> binIntoSortedDates(List<Field> fields) {
     /*
     1. First, I want to bin the fields with dates.
       a. First, go through all the fields,
@@ -64,7 +64,14 @@ class FieldsManager {
           (dt1, dt2) => dt1.createdAt.difference(dt2.createdAt).inMilliseconds);
     });
 
-    return map;
+    List<DateTime> dates = map.keys.toList();
+    dates.sort((date1, date2)=>date2.difference(date1).inMilliseconds);
+
+    List<DatedFields> sortedDatedFields = dates.map((key) {
+      return DatedFields(date: key, fields: map[key]);
+    }).toList();
+
+    return sortedDatedFields;
   }
 
   void addNewFields(count, startId) async {

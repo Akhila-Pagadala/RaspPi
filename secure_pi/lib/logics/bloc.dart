@@ -11,7 +11,7 @@ class FieldsBloc {
   FieldsService service = MockFieldsService();
 
   StreamController fieldController = StreamController<List<Field>>.broadcast();
-  StreamController fieldsWithDatesController = StreamController<HashMap<DateTime, List<Field>>>();
+  StreamController fieldsWithDatesController = StreamController<List<DatedFields>>();
 
   void initState() {
     fieldsManager = FieldsManager(bloc: this);

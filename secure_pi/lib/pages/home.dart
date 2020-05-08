@@ -16,13 +16,15 @@ class MyHomePage extends StatelessWidget {
         title: Text("Home Security"),
       ),
       body: Center(
-        child: StreamBuilder<HashMap<DateTime, List<Field>>>(
+        child: StreamBuilder<List<DatedFields>>(
           stream: bloc.fieldsWithDatesController.stream,
-          builder: (BuildContext context,
-              AsyncSnapshot<HashMap<DateTime, List<Field>>> snapshot) {
+          builder: (context, snapshot) {
             if (snapshot.hasData) {
-              var map = snapshot.data;
-              return Container();
+              var list = snapshot.data;
+              return ListView.builder(
+                itemBuilder: (context, index) => DatedFieldsCard(list[index]),
+                itemCount: list.length,
+              );
             } else {
               return Container(
                 child: Text("Loading...."),
@@ -31,6 +33,19 @@ class MyHomePage extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class DatedFieldsCard extends StatelessWidget {
+  final DatedFields datedFields;
+
+  DatedFieldsCard(this.datedFields);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(datedFields.date.toString()),
     );
   }
 }
