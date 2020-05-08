@@ -13,6 +13,7 @@ class FieldsManager {
   FieldsManager({@required this.bloc}) {
 
     bloc.fieldController.stream.listen((fields) {
+
       if (fields == null) {
         // Got all the fields. Now call sort with dates and send it to the fucking view.
         fieldsWithDates = this.binIntoSortedDates(allFields);
@@ -27,12 +28,15 @@ class FieldsManager {
 
         // Get the entry of the last
         // Call for more fields
-        bloc.fieldController.sink.add(bloc.service.getFields(200, fields[fields.length - 1].entryId));
+        this.addNewFields(200, fields[fields.length - 1].entryId);
+
       }
+
     });
     
     // Call to get the first fields.
-    bloc.fieldController.sink.add(bloc.service.getFields(200, 0));
+    this.addNewFields(200, 0);
+
 
   }
 
@@ -62,4 +66,9 @@ class FieldsManager {
 
     return map;
   }
+
+  void addNewFields(count, startId) async {
+    bloc.fieldController.sink.add(await bloc.service.getFields(200, 0));
+  }
+
 }
