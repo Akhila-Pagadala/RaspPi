@@ -5,13 +5,16 @@ import 'package:securepi/logics/schema.dart';
 class FieldsManager {
   FieldsBloc bloc;
 
-  List<Field> allFields = List<Field>();
-  List<DatedFields> fieldsWithDates;
+  List<Field> allFields;
 
   FieldsManager({@required this.bloc});
 
   void init() async {
-    bloc.fieldController.sink.add(await bloc.service.getFields(bloc.date));
+    var fields = await bloc.service.getFields(bloc.date);
+
+    this.allFields = fields;
+
+    bloc.fieldController.sink.add(fields);
   }
 
 

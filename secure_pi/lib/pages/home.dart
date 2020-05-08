@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:securepi/logics/bloc.dart';
 import 'package:securepi/logics/schema.dart';
 
@@ -14,6 +15,7 @@ class MyHomePage extends StatelessWidget {
         title: Text("Home Security"),
       ),
       body: Container(
+        color: Color(243),
         child: ListView.builder(
           itemBuilder: (context, index) =>
               DatedFieldsCard(today.subtract(Duration(days: index))),
@@ -38,22 +40,32 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          child: Text(widget.date.toString()),
-        ),
-        StreamBuilder<List<Field>>(
-          stream: bloc.fieldController.stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData){
-              return Text(snapshot.data.length.toString());
-            } else {
-              return Text("Loading...");
-            }
-          },
-        )
-      ],
+    var formatter = new DateFormat('MMM d');
+    return Container(
+      margin: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+      padding: EdgeInsets.all(15),
+      decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: new BorderRadius.all(const Radius.circular(20.0))
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(formatter.format(widget.date)),
+          ),
+          StreamBuilder<List<Field>>(
+            stream: bloc.fieldController.stream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData){
+                return Text(snapshot.data.length.toString());
+              } else {
+                return Text("...");
+              }
+            },
+          )
+        ],
+      ),
     );
   }
 
