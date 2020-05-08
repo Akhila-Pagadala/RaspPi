@@ -19,9 +19,13 @@ class FieldsManager {
         bloc.fieldsWithDatesController.sink.add(fieldsWithDates);
       }
       else {
-        allFields.addAll(fields);
-        // Get the entry of the last
         // Add the fields to allFields
+        allFields.addAll(fields);
+
+        fieldsWithDates = this.binIntoSortedDates(allFields);
+        bloc.fieldsWithDatesController.sink.add(fieldsWithDates);
+
+        // Get the entry of the last
         // Call for more fields
         bloc.fieldController.sink.add(bloc.service.getFields(200, fields[fields.length - 1].entryId));
       }
