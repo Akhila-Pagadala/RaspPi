@@ -45,7 +45,7 @@ class DatedFieldsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(datedFields.date.toString()),
+      child: Text(datedFields.date.toString() + " " + datedFields.fields.length.toString()),
     );
   }
 }
