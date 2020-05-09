@@ -10,7 +10,9 @@ class FieldsBloc {
 
   FieldsManager fieldsManager;
 
-  FieldsService service = MockFieldsService();
+  FieldsService service =
+  ThingSpeakService();
+  // MockFieldsService();
 
   StreamController fieldController = StreamController<List<Field>>.broadcast();
 

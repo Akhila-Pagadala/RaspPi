@@ -17,7 +17,7 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        color: Color(243),
+        color: Colors.white10,
         child: ListView.builder(
           itemBuilder: (context, index) {
             if (index == 0) return getHeader();
@@ -136,11 +136,16 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
 
     return Container(
       height: 100,
-      width: 500,
       child: charts.TimeSeriesChart(
         series,
         animate: true,
         dateTimeFactory: const charts.LocalDateTimeFactory(),
+        primaryMeasureAxis:
+            charts.NumericAxisSpec(renderSpec: new charts.NoneRenderSpec()),
+        domainAxis: new charts.DateTimeAxisSpec(
+          //showAxisLine: true,
+          renderSpec: new charts.NoneRenderSpec(),
+        ),
       ),
     );
   }

@@ -51,12 +51,12 @@ class Api {
   static final url = "https://api.thingspeak.com/channels/";
 
   static String getReadUrl(String channelId, String readKey, DateTime date) {
-    var start = _getFormatted(date);
-    var end = _getFormatted(date.add(Duration(days: 1)));
+    var start = getFormatted(date);
+    var end = getFormatted(date.add(Duration(days: 1)));
     return "https://api.thingspeak.com/channels/$channelId/feeds.json?api_key=$readKey&start=$start&end=$end";
   }
 
-  static String _getFormatted(DateTime dateTime) {
+  static String getFormatted(DateTime dateTime) {
     // YYYY-MM-DD%20HH:NN:SS
     var formatter = new DateFormat('yyyy-MM-dd');
     return formatter.format(dateTime) + '%2000:00:00';
