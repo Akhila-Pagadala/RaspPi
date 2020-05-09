@@ -1,9 +1,8 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:securepi/logics/bloc.dart';
 import 'package:securepi/logics/schema.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -19,7 +18,7 @@ class MyHomePage extends StatelessWidget {
         child: ListView.builder(
           itemBuilder: (context, index) =>
               DatedFieldsCard(today.subtract(Duration(days: index))),
-          itemCount: 90,
+          itemCount: 7,
         ),
       ),
     );
@@ -41,30 +40,70 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
   @override
   Widget build(BuildContext context) {
     var formatter = new DateFormat('MMM d');
-    return Container(
-      margin: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
-      padding: EdgeInsets.all(15),
-      decoration: new BoxDecoration(
-          color: Colors.white,
-          borderRadius: new BorderRadius.all(const Radius.circular(20.0))
+
+    return StreamBuilder<List<Field>>(
+        stream: bloc.fieldController.stream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data.length == 0) return SizedBox();
+          List<Field> fields = snapshot.data;
+          return Container(
+            margin: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+            padding: EdgeInsets.all(15),
+            decoration: new BoxDecoration(
+                color: Colors.white,
+                borderRadius:
+                    new BorderRadius.all(const Radius.circular(20.0))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: 30,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(formatter.format(widget.date)),
+                      getCounterWidget(fields),
+                    ],
+                  ),
+                ),
+                getGraph(fields),
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget getGraph(fields) {
+
+    var series = [
+      charts.Series(
+        id: 'Detection',
+        domainFn: (Field clickData, _) => clickData.createdAt,
+        measureFn: (Field clickData, _) => clickData.field1,
+        data: fields,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: Text(formatter.format(widget.date)),
-          ),
-          StreamBuilder<List<Field>>(
-            stream: bloc.fieldController.stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData){
-                return Text(snapshot.data.length.toString());
-              } else {
-                return Text("...");
-              }
-            },
-          )
-        ],
+    ];
+
+
+
+    return Container(
+        height: 100,
+        width: 500,
+        child: charts.TimeSeriesChart(series, animate: true, dateTimeFactory: const charts.LocalDateTimeFactory(),),
+    );
+  }
+
+  Widget getCounterWidget(List<Field> fields) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: Center(
+        child: Text(
+          fields.length.toString(),
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

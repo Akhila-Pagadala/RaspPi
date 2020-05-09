@@ -26,10 +26,12 @@ class ThingSpeakService extends FieldsService {
 
       if (feeds.length == 0) return fields;
 
+      var formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
+
       for (var feed in feeds) {
         fields.add(Field(
-          createdAt: feed['createdAt'],
-          entryId: feed['entryId'],
+          createdAt: formatter.parse(feed['created_at']),
+          entryId: feed['entry_id'],
           field1: int.parse(feed['field1']),
         ));
       }
