@@ -4,6 +4,8 @@ import 'package:securepi/logics/bloc.dart';
 import 'package:securepi/logics/schema.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+import 'day_detail_page.dart';
+
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,35 +48,46 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data.length == 0) return SizedBox();
           List<Field> fields = snapshot.data;
-          return Container(
-            margin: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
-            padding: EdgeInsets.all(15),
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    new BorderRadius.all(const Radius.circular(20.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 30,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(formatter.format(widget.date)),
-                      getCounterWidget(fields),
-                    ],
-                  ),
+
+          return InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) {
+                    return DayDetailPage(fields, widget.date);
+                  },
                 ),
-                getGraph(fields),
-              ],
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+              padding: EdgeInsets.all(15),
+              decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      new BorderRadius.all(const Radius.circular(20.0))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 30,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(formatter.format(widget.date)),
+                        getCounterWidget(fields),
+                      ],
+                    ),
+                  ),
+                  getGraph(fields),
+                ],
+              ),
             ),
           );
         });
   }
 
   Widget getGraph(fields) {
-
     var series = [
       charts.Series(
         id: 'Detection',
@@ -84,12 +97,14 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
       ),
     ];
 
-
-
     return Container(
-        height: 100,
-        width: 500,
-        child: charts.TimeSeriesChart(series, animate: true, dateTimeFactory: const charts.LocalDateTimeFactory(),),
+      height: 100,
+      width: 500,
+      child: charts.TimeSeriesChart(
+        series,
+        animate: true,
+        dateTimeFactory: const charts.LocalDateTimeFactory(),
+      ),
     );
   }
 
