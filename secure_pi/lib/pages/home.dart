@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:securepi/logics/bloc.dart';
@@ -7,8 +6,8 @@ import 'package:securepi/logics/schema.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:securepi/settings.dart';
-
 import 'day_detail_page.dart';
+
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -90,7 +89,7 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
             child: Container(
               margin: EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
               padding: EdgeInsets.all(15),
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius:
                       new BorderRadius.all(const Radius.circular(20.0))),
