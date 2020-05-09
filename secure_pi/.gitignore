@@ -1,4 +1,5 @@
 settings.dart
+.gradle/
 
 # Miscellaneous
 *.class
