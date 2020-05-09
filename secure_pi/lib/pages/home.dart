@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:securepi/logics/bloc.dart';
 import 'package:securepi/logics/schema.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:google_fonts/google_fonts.dart';
+import 'package:securepi/settings.dart';
 
 import 'day_detail_page.dart';
 
@@ -12,16 +16,40 @@ class MyHomePage extends StatelessWidget {
     var today = DateTime.now();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Security"),
-      ),
       body: Container(
         color: Color(243),
         child: ListView.builder(
-          itemBuilder: (context, index) =>
-              DatedFieldsCard(today.subtract(Duration(days: index))),
+          itemBuilder: (context, index) {
+            if (index == 0) return getHeader();
+            index -= 1;
+
+            return DatedFieldsCard(today.subtract(Duration(days: index)));
+          },
           itemCount: 7,
         ),
+      ),
+    );
+  }
+
+  Widget getHeader() {
+    return Container(
+      padding: EdgeInsets.only(top: 20, bottom: 12, left: 22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Home Security",
+            style: GoogleFonts.robotoCondensed(
+                textStyle: TextStyle(
+                    fontSize: 28,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text("Channel ID: ${HomeSecurityChannelInfo.channelId}"),
+          ),
+        ],
       ),
     );
   }
@@ -71,10 +99,19 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
                 children: <Widget>[
                   Container(
                     height: 30,
+                    padding: EdgeInsets.only(left: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(formatter.format(widget.date)),
+                        Text(
+                          formatter.format(widget.date),
+                          style: GoogleFonts.robotoCondensed(
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
                         getCounterWidget(fields),
                       ],
                     ),
