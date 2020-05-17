@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "passengers-pi",
+    "passengers": "passengers-pi"
+  }
+}

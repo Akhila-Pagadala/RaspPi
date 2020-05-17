@@ -53,7 +53,7 @@ class Api {
   static String getReadUrl(String channelId, String readKey, DateTime date) {
     var start = getFormatted(date);
     var end = getFormatted(date.add(Duration(days: 1)));
-    return "https://api.thingspeak.com/channels/$channelId/feeds.json?api_key=$readKey&start=$start&end=$end";
+    return "$url$channelId/feeds.json?api_key=$readKey&start=$start&end=$end";
   }
 
   static String getFormatted(DateTime dateTime) {

@@ -16,7 +16,7 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        color: Colors.white10,
+        color: Colors.grey[100],
         child: ListView.builder(
           itemBuilder: (context, index) {
             if (index == 0) return getHeader();
@@ -24,7 +24,7 @@ class MyHomePage extends StatelessWidget {
 
             return DatedFieldsCard(today.subtract(Duration(days: index)));
           },
-          itemCount: 7,
+          itemCount: 90,
         ),
       ),
     );
@@ -37,7 +37,7 @@ class MyHomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Home Security",
+            "Passengers",
             style: GoogleFonts.robotoCondensed(
                 textStyle: TextStyle(
                     fontSize: 28,
@@ -139,12 +139,12 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
         series,
         animate: true,
         dateTimeFactory: const charts.LocalDateTimeFactory(),
-        primaryMeasureAxis:
-            charts.NumericAxisSpec(renderSpec: new charts.NoneRenderSpec()),
-        domainAxis: new charts.DateTimeAxisSpec(
+        //primaryMeasureAxis:
+        //    charts.NumericAxisSpec(renderSpec: new charts.NoneRenderSpec()),
+        //domainAxis: new charts.DateTimeAxisSpec(
           //showAxisLine: true,
-          renderSpec: new charts.NoneRenderSpec(),
-        ),
+        //  renderSpec: new charts.NoneRenderSpec(),
+        // ),
       ),
     );
   }
