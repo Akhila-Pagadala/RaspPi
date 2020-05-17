@@ -1,6 +1,8 @@
 settings.dart
 .gradle/
 
+.firebase/
+
 # Miscellaneous
 *.class
 *.log
