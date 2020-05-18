@@ -157,7 +157,7 @@ class _DatedFieldsCardState extends State<DatedFieldsCard> {
       padding: EdgeInsets.only(left: 20, right: 20),
       child: Center(
         child: Text(
-          fields.length.toString(),
+          fields.where((field) => field.field1 == 1).toList().length.toString(),
           style: TextStyle(color: Colors.white),
         ),
       ),

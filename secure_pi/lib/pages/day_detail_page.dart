@@ -80,7 +80,7 @@ class DayDetailPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                fields.length.toString(),
+                fields.where((field) => field.field1 == 1).toList().length.toString(),
                 style: GoogleFonts.robotoCondensed(
                   textStyle: TextStyle(
                     fontSize: 38,
